@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from data.load_data import generate_splits, AI4MarsDataset
 from model.load_model import load_model
 import inference.perform_inference
-from config import TRAIN_IMAGES, TRAIN_LABELS, TEST_LABELS, NUM_CLASSES
+from config import TRAIN_IMAGES, TRAIN_LABELS, TEST_LABELS, NUM_CLASSES, BATCH_SIZE, NUM_EPOCHS
 import wandb
 
 def train(
@@ -128,7 +128,8 @@ def train(
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train("resnet_50", 32, 1, device=device)
+    
+    train("resnet_50", BATCH_SIZE, NUM_EPOCHS, device=device)
 
 if __name__ == "__main__":
     main()
