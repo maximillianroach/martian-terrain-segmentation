@@ -12,6 +12,7 @@ module load miniconda
 conda activate rl-lab
 
 export WANDB_API_KEY=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
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 pip install -r requirements.txt
 
 python -m train
