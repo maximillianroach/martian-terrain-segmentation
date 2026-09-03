@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Subset
 from data.load_data import generate_splits, AI4MarsDataset
 from model.load_model import load_model
 import inference.perform_inference
@@ -43,6 +43,7 @@ def train(
 
     # load data
     ds = AI4MarsDataset(TRAIN_IMAGES, TRAIN_LABELS, testing=False)
+
     train_split, val_split = generate_splits(0.8, 0.2, dataset=ds)
 
     train_loader = DataLoader(train_split, batch_size=batch_size, shuffle=True)
@@ -124,7 +125,8 @@ def train(
 
         # save model when we get new best validation loss
         if avg_val_loss < best_val_loss:
-            torch.save(model.state_dict, checkpoint_path)
+            best_val_loss = avg_val_loss
+            torch.save(model.state_dict(), checkpoint_path)
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

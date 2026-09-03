@@ -8,6 +8,6 @@ TRAIN_LABELS = DATA_ROOT / "labels" / "train"
 TEST_LABELS = DATA_ROOT / "labels" / "test" / "masked-gold-min3-100agree"
 
 NUM_CLASSES = 4
-BATCH_SIZE = 2
+BATCH_SIZE = 8
 IMG_SIZE = 1024
-NUM_EPOCHS = 20
+NUM_EPOCHS = 5
