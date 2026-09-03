@@ -65,7 +65,7 @@ def train(
 
             out = model(stacked_img)
             logits = out['out']
-            loss = nn.functional.cross_entropy(logits, label, ignore_index=255)
+            loss = nn.functional.cross_entropy(logits, label.long(), ignore_index=255)
             total_train_loss += loss.item() * img.size(0)
 
             loss.backward()
