@@ -5,7 +5,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader, random_split
 from torchvision import transforms
 import numpy as np
-from config import TRAIN_IMAGES, TRAIN_LABELS, TEST_LABELS
+from config import TRAIN_IMAGES, TRAIN_LABELS, TEST_LABELS, IMG_SIZE
 
 def build_pairs(img_dir, label_dir, testing=False):
     img_paths = sorted(Path(img_dir).glob("*.JPG"))
@@ -42,12 +42,12 @@ class AI4MarsDataset(Dataset):
         # resize img and convert it to tensor
         img = Image.open(img_path).convert("L")
         transform = transforms.ToTensor()
-        resize = transforms.Resize((1024, 1024))
+        resize = transforms.Resize((IMG_SIZE, IMG_SIZE))
         resized_img = resize(img)
         img_tensor = transform(resized_img)
 
         # resize label and convert it to tensor
-        label_resize = transforms.Resize((1024, 1024), interpolation=transforms.InterpolationMode.NEAREST)
+        label_resize = transforms.Resize((IMG_SIZE, IMG_SIZE), interpolation=transforms.InterpolationMode.NEAREST)
         label = Image.open(label_path).convert("L")
         resized_label = label_resize(label)
         label_tensor = torch.from_numpy(np.array(resized_label))
