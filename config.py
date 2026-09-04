@@ -10,4 +10,4 @@ TEST_LABELS = DATA_ROOT / "labels" / "test" / "masked-gold-min3-100agree"
 NUM_CLASSES = 4
 BATCH_SIZE = 8
 IMG_SIZE = 512
-NUM_EPOCHS = 10
+NUM_EPOCHS = 25
