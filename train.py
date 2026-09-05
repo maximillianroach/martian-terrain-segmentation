@@ -50,6 +50,7 @@ def train(
     val_loader = DataLoader(val_split, batch_size=batch_size, shuffle=False)
 
     class_weights = torch.tensor([0.11, 0.11, 0.43, 3.35])
+    class_weights = class_weights.to(device)
 
     best_val_loss = float("inf")
     best_avg_IoU = 0.0
