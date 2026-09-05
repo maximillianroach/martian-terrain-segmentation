@@ -11,7 +11,7 @@ from config import TRAIN_IMAGES, TRAIN_LABELS, TEST_LABELS
 
 label_map = {
     0: (0, 255, 0), # soil - green
-    1: (255, 165, 255), # bedrock - yellow
+    1: (255, 165, 255), # bedrock - magenta
     2: (0, 0, 255), # sand - blue
     3: (255, 0, 0), # big rock - red
     255: (128, 128, 128), # NULL
@@ -76,6 +76,20 @@ def visualize_pair(img_tensor, label_tensor):
     axes[0].imshow(img_tensor.squeeze())
 
     axes[1].imshow(labels)
+
+    plt.show()
+
+def visualize_pred(img_tensor, label_tensor, pred_tensor):
+    fig, axes = plt.subplots(1, 3, layout="constrained")
+        
+    labels = label_to_rgb(label_tensor)
+    predictions = label_to_rgb(pred_tensor)
+
+    axes[0].imshow(img_tensor.squeeze())
+
+    axes[1].imshow(labels)
+
+    axes[2].imshow(predictions)
 
     plt.show()
 

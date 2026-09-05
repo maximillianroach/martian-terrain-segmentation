@@ -49,7 +49,10 @@ def train(
     train_loader = DataLoader(train_split, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_split, batch_size=batch_size, shuffle=False)
 
+    class_weights = torch.tensor([0.11, 0.11, 0.43, 3.35])
+
     best_val_loss = float("inf")
+    best_avg_IoU = 0.0
 
     for epoch in range(num_epochs):
         model.train()
@@ -86,7 +89,7 @@ def train(
 
                 out = model(stacked_img)
                 logits = out['out']
-                loss = nn.functional.cross_entropy(logits, label.long(), ignore_index=255)
+                loss = nn.functional.cross_entropy(logits, label.long(), class_weights=class_weights, ignore_index=255)
                 total_val_loss += loss.item() * img.size(0)
 
                 # IOU
@@ -124,8 +127,8 @@ def train(
         })
 
         # save model when we get new best validation loss
-        if avg_val_loss < best_val_loss:
-            best_val_loss = avg_val_loss
+        if avg_IoU > best_avg_IoU:
+            best_avg_IoU = avg_IoU
             torch.save(model.state_dict(), checkpoint_path)
 
 def main():
