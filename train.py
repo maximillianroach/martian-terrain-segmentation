@@ -69,7 +69,7 @@ def train(
 
             out = model(stacked_img)
             logits = out['out']
-            loss = nn.functional.cross_entropy(logits, label.long(), ignore_index=255)
+            loss = nn.functional.cross_entropy(logits, label.long(), weight=class_weights, ignore_index=255)
             total_train_loss += loss.item() * img.size(0)
 
             loss.backward()
@@ -79,6 +79,7 @@ def train(
         total_union = torch.zeros(NUM_CLASSES)
         total_intersection = torch.zeros(NUM_CLASSES)
 
+        # validation
         model.eval()
         with torch.no_grad():
             for img, label in val_loader:
@@ -89,7 +90,7 @@ def train(
 
                 out = model(stacked_img)
                 logits = out['out']
-                loss = nn.functional.cross_entropy(logits, label.long(), class_weights=class_weights, ignore_index=255)
+                loss = nn.functional.cross_entropy(logits, label.long(), weight=class_weights, ignore_index=255)
                 total_val_loss += loss.item() * img.size(0)
 
                 # IOU
