@@ -6,6 +6,7 @@ from torch.utils.data import Dataset, DataLoader, random_split
 from torchvision import transforms
 import numpy as np
 from config import TRAIN_IMAGES, TRAIN_LABELS, TEST_LABELS, IMG_SIZE
+import albumentations as A
 
 def build_pairs(img_dir, label_dir, testing=False):
     img_paths = sorted(Path(img_dir).glob("*.JPG"))
@@ -58,8 +59,30 @@ def generate_splits(train_split, val_split, dataset=AI4MarsDataset(TRAIN_IMAGES,
     train_set, val_set = random_split(dataset, [train_split, val_split],generator=torch.Generator().manual_seed(seed))
     return (train_set, val_set)
 
+def determine_class_counts():
+    ds = AI4MarsDataset(TRAIN_IMAGES,TRAIN_LABELS,testing=False)
+    loader = DataLoader(ds)
+
+    counts = torch.zeros((4, ))
+    # 0 - soil
+    # 1 - bedrock
+    # 2 - sand
+    # 3 big rock
+
+    for img, lbl in loader:
+        for label_num in range(0, 4):
+            # labels has our predictions
+            counts[label_num] += torch.sum(lbl == label_num)
+
+    return counts
+
 def main():
-    pass
+    counts = determine_class_counts()
+    total_pixels = torch.sum(counts)
+    frequencies = counts / total_pixels
+    weights = 1 / frequencies
+    print(weights)
+
 
 if __name__ == "__main__":
     main()

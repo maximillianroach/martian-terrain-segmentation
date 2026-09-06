@@ -43,13 +43,14 @@ def train(
 
     # load data
     ds = AI4MarsDataset(TRAIN_IMAGES, TRAIN_LABELS, testing=False)
+    print(len(ds))
 
     train_split, val_split = generate_splits(0.8, 0.2, dataset=ds)
 
     train_loader = DataLoader(train_split, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_split, batch_size=batch_size, shuffle=False)
 
-    class_weights = torch.tensor([0.11, 0.11, 0.43, 3.35])
+    class_weights = torch.tensor([0.40, 0.35, 0.7, 2.55])
     class_weights = class_weights.to(device)
 
     best_val_loss = float("inf")
@@ -125,7 +126,12 @@ def train(
             "epoch": epoch,
             "train_loss": avg_train_loss,
             "val_loss": avg_val_loss,
-            "iou_loss": avg_IoU
+            "avg_IoU": avg_IoU,
+            "IoU_class_0": IoU_per_class[0],
+            "IoU_class_1": IoU_per_class[1],
+            "IoU_class_2": IoU_per_class[2],
+            "IoU_class_3": IoU_per_class[3],
+
         })
 
         # save model when we get new best validation loss

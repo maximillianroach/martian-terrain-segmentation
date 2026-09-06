@@ -12,15 +12,15 @@ def load_model(model_name: str):
         raise ValueError("'model_name' should be one of ('mobilenet', 'resnet_50', 'resnet_101')")
 
     if model_name == "resnet_50":
-        model = deeplabv3_resnet50(DeepLabV3_ResNet50_Weights)
+        model = deeplabv3_resnet50(weights=DeepLabV3_ResNet50_Weights.COCO_WITH_VOC_LABELS_V1)
         transforms = DeepLabV3_ResNet50_Weights.COCO_WITH_VOC_LABELS_V1.transforms()
 
     elif model_name == "resnet_101":
-        model = deeplabv3_resnet101(DeepLabV3_ResNet101_Weights)
+        model = deeplabv3_resnet101(weights=DeepLabV3_ResNet101_Weights.DEFAULT)
         transforms = DeepLabV3_ResNet101_Weights.COCO_WITH_VOC_LABELS_V1.transforms()
 
     else:
-        model = deeplabv3_mobilenet_v3_large(DeepLabV3_MobileNet_V3_Large_Weights)
+        model = deeplabv3_mobilenet_v3_large(weights=DeepLabV3_MobileNet_V3_Large_Weights.DEFAULT)
         transforms = DeepLabV3_MobileNet_V3_Large_Weights.COCO_WITH_VOC_LABELS_V1.transforms()
 
     model.eval()

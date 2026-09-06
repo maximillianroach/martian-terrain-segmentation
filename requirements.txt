@@ -3,3 +3,4 @@ wandb
 matplotlib
 numpy
 torchvision
+albumentations
