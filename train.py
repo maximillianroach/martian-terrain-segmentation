@@ -15,7 +15,7 @@ def train(
         device,
         checkpoint_path="checkpoint.pth",
         # hyperparameters
-        lr: float=1e-4, 
+        lr: float=2e-5, 
 
 ):
     # initialize wandb

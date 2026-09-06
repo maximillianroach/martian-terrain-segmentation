@@ -25,7 +25,7 @@ def perform_inference(model_name, num_images=1, image_dir=None, save_images=Fals
     # load validation split
     train_split, val_split = generate_splits(0.8, 0.2, ds)
     # val_loader = DataLoader(val_split, 2, shuffle=False)
-    img, lbl = val_split[8]
+    img, lbl = val_split[29]
     stacked_img = img.unsqueeze(0).repeat(1, 3, 1, 1)
     stacked_img = stacked_img.to(device)
 
